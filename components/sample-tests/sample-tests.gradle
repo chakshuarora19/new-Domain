@@ -20,7 +20,7 @@ repositories {
         url "${EnvironmentData.instance.getArtifactoryURL()}/falconcloud-suiteqa-snapshot/"
     }
     maven {
-    	url "https://artifactory.dev.mykronos.com/artifactory/plugins-snapshot-local/"
+    	url "https://ukgartifactory.pe.jfrog.io/artifactory/plugins-snapshot-local/"
     }
    mavenCentral()
 }
@@ -72,7 +72,7 @@ task downloadApiTestCaseJar() {
 
         if (!file.exists()) {
             try {
-                URL artifactoryUrl = new URL('https://artifactory.dev.mykronos.com/artifactory/falconcloud-suiteqa-snapshot/com/kronos/qa/automation/r9int/APICore/1.0.0/APICore-1.0.0.jar');
+                URL artifactoryUrl = new URL('https://ukgartifactory.pe.jfrog.io/artifactory/falconcloud-suiteqa-snapshot/com/kronos/qa/automation/r9int/APICore/1.0.0/APICore-1.0.0.jar');
                 HttpURLConnection myURLConnection = (HttpURLConnection) artifactoryUrl.openConnection()
                 myURLConnection.setRequestMethod("HEAD")
 
