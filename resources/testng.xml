@@ -1,0 +1,50 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Suites" parallel="classes" thread-count="1" configfailurepolicy="continue">
+   	<parameter name="browser" value="chrome"></parameter>
+	<parameter name="Frontend_Server" value="http://kacd01-acd01-ins01-wfm71-fnt.int.acd.mykronos.com"></parameter>
+	
+	<parameter name="Tenant" value="combined"></parameter>
+	<parameter name="Report_Loc" value="C:\Jenkins\workspace\RunTestNGEngine_CustomBranch_Auth0_java8_1/default" />
+	<parameter name="Log_Loc" value="C:\Jenkins\workspace\RunTestNGEngine_CustomBranch_Auth0_java8_1/default" />
+	<parameter name="logInfoLevel" value="true" />
+
+	<parameter name="PUBLISH_RESULTS_TO_ALM" value="false"></parameter>
+	<parameter name="dateFormat" value="MM/dd/yyyy" />
+	<parameter name="deepReporting" value="true" />
+	<parameter name="Build_Level" value="$Build_Level" />
+	<parameter name="sl_account_type" value="primary" />
+	<parameter name="timeout" value="120" />
+	<parameter name="DBServer" value="${DB_SERVER}" />
+	<parameter name="DBName" value="${DB_SID}" />
+	<parameter name="UserName" value="${DB_USERNAME}" />
+	<parameter name="PassWord" value="{DB_PASSWORD}" />
+	<parameter name="port" value="5444" />
+	<parameter name="SPEED_UP" value="true" />
+	<parameter name="login" value="LindaHudson" />
+	<parameter name="password" value="Pr0mensi0ns@UKG" />
+	<parameter name="$SauceLabAdditionalParameters" value="$SauceLabAdditionalParameters" />
+	<parameter name="checkEnv" value="false" />
+	
+	
+	
+<parameter name="Backend_Server" value="http://ram-maurya-back-k8s.int.dev.mykronos.com:80"></parameter>
+<parameter name="OpenAM_Server" value="http://keng03-dev01-ath20-oam.int.dev.mykronos.com:80/"></parameter>
+<parameter name="TRS_Server" value="https://welcome-dev-team6-instance3.ukg-dev.auth0app.com/"/>
+<parameter name="Auth_Server" value="https://welcome-dev-team6-instance3.ukg-dev.auth0app.com/oauth/token"/>   
+<parameter name="OAuth_ClientId_AuthN" value="wurl5ELIQHaAKNw3KYXxWbcd8NZ1s0gO" />
+<parameter name="OAuth_ClientSecret_AuthN" value="9VQzxeYIPSFI0b5HcZZziRxvsk8QXoloA-ZyG3fujlHZs7bWMYZIH2cWH7GoEnE8" />
+<parameter name="Auth_Audience" value="https://welcome-dev-team6-instance3.ukg-dev.auth0app.com/api/v2/"/>
+	
+	<listeners>
+		<listener class-name="com.kronos.listener.TestRetryListener"/>
+		
+	</listeners>
+	<test name="Tests" >
+		<groups><run><include name="bothFlows"/><exclude name="WIP"/></run></groups>
+		
+	       	<packages><package name="com.kronos"></package></packages>
+
+		
+	
+	</test>
+</suite>

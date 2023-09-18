@@ -1,0 +1,22 @@
+ext.disableManifest='true'
+ext.keepUserVersion='true'
+ext.isSnapshot='true'
+ext.backingRepos =  [ "ext-release-local-dim", "gap","falconcloud-suiteqa-snapshot"]
+ext.publishRepo = 'falconcloud-common-business-snapshot'
+apply plugin: 'kronos-environment'
+def branch = project.kronosEnv.getBranchName()
+group += ".${project.kronosEnv.getBranchName()}"
+apply plugin: 'component-config'
+subprojects{
+    it.group = group
+}
+
+test{
+   useTestNG() {
+        useDefaultListeners = true
+        suites "/resources/testNg.xml"
+    }
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+        }
+}

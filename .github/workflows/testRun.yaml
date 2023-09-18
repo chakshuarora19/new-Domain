@@ -1,0 +1,55 @@
+name: Sample Project Build
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  step1:
+    runs-on: [self-hosted, windows, x64]
+    steps:
+      - uses: actions/checkout@v3
+
+  step2:
+    runs-on: [self-hosted, windows, x64]
+    needs: step1
+    steps:
+      - run: java -version
+        name: Step 2 - Check Java Version
+
+  step3:
+    runs-on: [ self-hosted, windows, x64 ]
+    needs: step2
+    steps:
+      - run: ./gradlew build
+        name: Step 3 - Initial build of application
+
+  step4:
+    runs-on: [self-hosted, windows, x64]
+    needs: step3
+    steps:
+      - name: Step 4 - Run Gradle Wrapper to execute downloadApiTestCaseJar task
+        run: ./gradlew downloadApiTestCaseJar
+
+  step5:
+    runs-on: [self-hosted, windows, x64]
+    needs: step3
+    steps:
+      - name: Step 5 - Run Gradle Wrapper to execute downloadTestNgJar task
+        run: ./gradlew downloadTestNgJar
+
+  step6:
+    runs-on: [self-hosted, windows, x64]
+    needs: [ step4, step5]
+    steps:
+      - name: Step 6 - Run Gradle Wrapper to execute runApiTest task
+        run: ./gradlew runApiTest
+
+  step7:
+    runs-on: [self-hosted, windows, x64]
+    needs: [ step6]
+    steps:
+      - name: Step 7 - Run Gradle Wrapper to execute deleteFiles task
+        run: ./gradlew deleteFiles

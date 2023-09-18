@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extentreports>
+    <configuration>
+        <encoding>UTF-8</encoding>
+        <documentTitle>Interim Extent Report</documentTitle> <!-- This title will be displayed as browser title for the page -->
+        <reportName>Interim Report</reportName>  <!-- This will be your report heading -->
+        <reportHeadline></reportHeadline>
+    </configuration>
+</extentreports>

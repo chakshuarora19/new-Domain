@@ -1,0 +1,115 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+import com.kronos.gradle.plugins.KronosEnvironment.EnvironmentData
+import com.ukg.manifest.DepUtils
+
+
+
+repositories {
+    maven {
+        url "${EnvironmentData.instance.getArtifactoryURL()}/ext-release-local-dim"
+    }
+    maven {
+        url "${EnvironmentData.instance.getArtifactoryURL()}/gap-cache/"
+    }
+    maven {
+        url "${EnvironmentData.instance.getArtifactoryURL()}/qa-tools/"
+    }
+    maven {
+        url "${EnvironmentData.instance.getArtifactoryURL()}/falconcloud-suiteqa-snapshot/"
+    }
+    maven {
+    	url "https://artifactory.dev.mykronos.com/artifactory/plugins-snapshot-local/"
+    }
+   mavenCentral()
+}
+
+configurations {
+    frameworkJars
+    compile.extendsFrom frameworkJars
+    toCopy
+}
+
+dependencies {
+ 	implementation(frameworkJars(group: 'com.kronos.qa.automation.r9int', name: 'APICore', version:'1.0.0' )){transitive=false}
+    toCopy 'org.testng:testng:7.4.0'
+}
+
+task fatJar(type: Jar, dependsOn: ['Jar']) {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from((configurations.runtimeClasspath - configurations.frameworkJars).collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+        exclude "**///license/*"
+        exclude "license/*"
+    }
+    with jar
+    zip64 true
+}
+
+def path = System.getProperty("user.dir")
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.implementation
+}
+
+task downloadTestNgJar(type: Copy) {
+    from configurations.toCopy
+    into path
+}
+
+task downloadApiTestCaseJar() {
+    println "[FUSION] INFO : Start Downloading framework jars"
+
+    group = 'Download'
+    description = 'Downloads APITest.jar'
+
+    doLast {
+        def file = new File('APITest.jar')
+
+        if (!file.exists()) {
+            try {
+                URL artifactoryUrl = new URL('https://artifactory.dev.mykronos.com/artifactory/falconcloud-suiteqa-snapshot/com/kronos/qa/automation/r9int/APICore/1.0.0/APICore-1.0.0.jar');
+                HttpURLConnection myURLConnection = (HttpURLConnection) artifactoryUrl.openConnection()
+                myURLConnection.setRequestMethod("HEAD")
+
+                int responseCode = myURLConnection.getResponseCode()
+
+                if (responseCode == 200) {
+                    InputStream is = artifactoryUrl.openStream()
+                    new FileOutputStream(file).withCloseable { outputStream ->
+                        int read
+                        byte[] bytes = new byte[1024]
+
+                        while ((read = is.read(bytes)) != -1) {
+                            outputStream.write(bytes, 0, read)
+                        }
+                    }
+                    println "[FUSION] INFO : Download successful APITest.jar"
+                } else {
+                    println "[FUSION] ERROR: JAR file does not exist at the specified URL."
+                }
+            } catch (Exception e) {
+                println "[FUSION] ERROR: Failed to download the JAR file."
+                e.printStackTrace()
+            }
+        } else {
+            println "[FUSION] INFO : framework.jar already exists. Skipping download."
+        }
+    }
+    println "[FUSION] INFO : End of Downloading APITestCode jar."
+}
+
+task runApiTest(type: JavaExec) {
+    println "[FUSION] INFO : Start executing test case."
+    main = 'org.testng.TestNG'
+    classpath = files(
+            "${path}\\testng-7.4.0.jar",
+            "${path}\\APITest.jar",
+			"${path}\\components\\sample-tests\\build\\libs\\sample-tests-1.0-SNAPSHOT.jar")
+    args "${path}\\components\\sample-tests\\TestNg.xml"
+    println "[FUSION] INFO : Test execution ended."
+}

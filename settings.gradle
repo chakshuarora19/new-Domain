@@ -1,0 +1,7 @@
+new File("$settingsDir/components").eachDir { File comp ->
+    include comp.name
+    def thisSubProject = project(":$comp.name")
+    thisSubProject.projectDir = comp
+    thisSubProject.buildFileName = "${thisSubProject.name}.gradle"
+}
+rootProject.name="TestNG(sample-API)"
