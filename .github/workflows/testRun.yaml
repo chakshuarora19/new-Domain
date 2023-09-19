@@ -46,10 +46,3 @@ jobs:
     steps:
       - name: Step 6 - Run Gradle Wrapper to execute runApiTest task
         run: ./gradlew runApiTest
-
-  step7:
-    runs-on: [self-hosted, windows, x64]
-    needs: [ step6]
-    steps:
-      - name: Step 7 - Run Gradle Wrapper to execute deleteFiles task
-        run: ./gradlew deleteFiles
