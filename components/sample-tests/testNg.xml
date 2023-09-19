@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Suites" parallel="classes" thread-count="1" configfailurepolicy="continue">
-<parameter name="browser" value="edge"/>
+<parameter name="browser" value="chrome"/>
 <parameter name="Backend_Server" value="http://jitendra-chaudhary-back-k8s.int.dev.mykronos.com:80"/>
 <parameter name="Frontend_Server" value="http://jitendra-chaudhary-k8s.int.dev.mykronos.com/"/>
 <parameter name="OpenAM_Server" value="http://keng03-dev01-ath20-oam.int.dev.mykronos.com:80"/>
@@ -17,6 +17,11 @@
 <parameter name="checkEnv" value="true"/>
 <parameter name="cluster_project" value="gcp-keng01"/>
 <parameter name="timeout" value="60"/>
+<parameter name="TRS_Server" value="https://welcome-dev-team6-instance3.ukg-dev.auth0app.com/"/>
+<parameter name="Auth_Server" value="https://welcome-dev-team6-instance3.ukg-dev.auth0app.com/oauth/token"/>   
+<parameter name="OAuth_ClientId_AuthN" value="wurl5ELIQHaAKNw3KYXxWbcd8NZ1s0gO" />
+<parameter name="OAuth_ClientSecret_AuthN" value="9VQzxeYIPSFI0b5HcZZziRxvsk8QXoloA-ZyG3fujlHZs7bWMYZIH2cWH7GoEnE8" />
+<parameter name="Auth_Audience" value="https://welcome-dev-team6-instance3.ukg-dev.auth0app.com/api/v2/"/>
 <listeners>
 	<listener class-name="com.kronos.listener.TestRetryListener"/>
 </listeners>
@@ -28,7 +33,7 @@
 	</run>
 	</groups>
 	<packages>
-		<package name="com.kronos*"/>
+		<package name="com.kronos"/>
 	</packages>
 </test>
 </suite>
