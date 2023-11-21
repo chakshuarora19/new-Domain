@@ -11,7 +11,7 @@ name: SonarQube Scan
 jobs:
   sonarqube:
     name: SonarQube Trigger
-    runs-on: [self-hosted, windows, x64]
+    runs-on: [self-hosted, Linux, x64]
     steps:
     - uses: actions/checkout@v3
       with:
