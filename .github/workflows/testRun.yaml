@@ -13,8 +13,6 @@ jobs:
     name: SonarQube Trigger
     runs-on: [self-hosted, Linux, x64]
     steps:
-    - name: Clean up .scannerwork folder
-      run: docker run -v "$(pwd):/usr/src" sonarsource/sonar-scanner-cli rm -rf .scannerwork
     - name: checkout
       uses: actions/checkout@v3
       with:
