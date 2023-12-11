@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   show-memory-utilization:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, x64]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
