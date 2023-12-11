@@ -1,25 +1,18 @@
-on:
-  # Trigger analysis when pushing in master or pull requests, and when creating
-  # a pull request. 
-  push:
-    branches:
-      - master
-  pull_request:
-      types: [opened, synchronize, reopened]
+# .github/workflows/main.yml
+name: Memory Utilization Workflow
 
-name: SonarQube Scan
+on: [push, pull_request]
+
 jobs:
-  sonarqube:
-    name: SonarQube Trigger
-    runs-on: [self-hosted, Linux, x64]
+  show-memory-utilization:
+    runs-on: ubuntu-latest
     steps:
-    - name: checkout
-      uses: actions/checkout@v3
-      with:
-        # Disabling shallow clones is recommended for improving the relevancy of reporting
-        fetch-depth: 0
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@v1.2.0
-      env:
-        SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST  }}
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Show Memory Utilization
+      id: memory-utilization
+      run: ./entrypoint.sh
+
+    - name: Display Memory Utilization
+      run: echo "Memory Utilization: ${{ steps.memory-utilization.outputs.memory }}"
