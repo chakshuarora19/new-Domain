@@ -13,8 +13,9 @@ jobs:
         run: chmod +x entrypoint.sh
 
       - name: Show Memory Utilization
-        id: memory-utilization
-        run: ./entrypoint.sh
+        uses: ./
+      #  id: memory-utilization
+     #   run: ./entrypoint.sh
 
-      - name: Display Memory Utilization
-        run: echo "Memory Utilization:${{ steps.memory-utilization.outputs.memory }}"
+     # - name: Display Memory Utilization
+     #   run: echo "Memory Utilization:${{ steps.memory-utilization.outputs.memory }}"
