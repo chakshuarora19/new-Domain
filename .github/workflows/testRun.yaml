@@ -12,10 +12,7 @@ jobs:
       - name: Set execute permissions for entrypoint.sh
         run: chmod +x entrypoint.sh
 
-      - name: Show Memory Utilization
+      - name: Run Memory Utilization
         uses: ./
-      #  id: memory-utilization
-     #   run: ./entrypoint.sh
-
-     # - name: Display Memory Utilization
-     #   run: echo "Memory Utilization:${{ steps.memory-utilization.outputs.memory }}"
+        with:
+          script-path: ./entrypoint.sh
