@@ -1,9 +1,7 @@
-# action.yml
-name: 'Show Memory Utilization'
-description: 'Displays memory utilization in a GitHub Action'
-
+name: 'Memory Utilization'
+description: 'Prints memory utilization.'
 runs:
-  using: 'bash'
-  shell: bash
-  working-directory: ${{ github.workspace }}
-  main: 'entrypoint.sh'
+  using: 'composite'
+  steps:
+    - name: 'Run script'
+      run: ${{ inputs.script-path }}
