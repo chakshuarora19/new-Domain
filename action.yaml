@@ -5,3 +5,4 @@ runs:
   steps:
     - name: 'Run script'
       run: ${{ inputs.script-path }}
+      shell: bash
