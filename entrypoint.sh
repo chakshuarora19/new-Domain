@@ -1,9 +1,5 @@
-# entrypoint.sh
 #!/bin/bash
-set -e
 
-# Get memory utilization
-MEMORY_USAGE=$(ps aux --sort=-%mem | awk 'NR==2{print $4}')
+MEMORY_USAGE=$(free -m | awk 'NR==2{printf "%.2f%%", $3*100/$2 }')
 
-# Output memory utilization
-echo "::set-output name=memory::${MEMORY_USAGE}%"
+echo "Memory Utilization: $MEMORY_USAGE"
